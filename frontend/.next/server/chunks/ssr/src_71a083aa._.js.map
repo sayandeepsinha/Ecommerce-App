@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///Users/prince/Documents/ecomm/frontend/src/components/adminsidebar.js"],"sourcesContent":["import Link from 'next/link'\n\nexport default function AdminSidebar() {\n  return (\n    <div className=\"w-48 bg-gray-100 min-h-screen p-4 border-r\">\n      <h2 className=\"font-semibold mb-4\">Admin</h2>\n      <ul className=\"flex flex-col gap-2\">\n        <li><Link href=\"/admin/products\">Products</Link></li>\n        <li><Link href=\"/admin/orders\">Orders</Link></li>\n      </ul>\n    </div>\n  )\n}\n"],"names":[],"mappings":";;;;;AAAA;;;AAEe,SAAS;IACtB,qBACE,8OAAC;QAAI,WAAU;;0BACb,8OAAC;gBAAG,WAAU;0BAAqB;;;;;;0BACnC,8OAAC;gBAAG,WAAU;;kCACZ,8OAAC;kCAAG,cAAA,8OAAC,uKAAI;4BAAC,MAAK;sCAAkB;;;;;;;;;;;kCACjC,8OAAC;kCAAG,cAAA,8OAAC,uKAAI;4BAAC,MAAK;sCAAgB;;;;;;;;;;;;;;;;;;;;;;;AAIvC","debugId":null}},
+    {"offset": {"line": 72, "column": 0}, "map": {"version":3,"sources":["file:///Users/prince/Documents/ecomm/frontend/src/app/admin/layout.js"],"sourcesContent":["import AdminSidebar from '../../components/adminsidebar'\n\nexport default function AdminLayout({ children }) {\n  return (\n    <div className=\"flex\">\n      <AdminSidebar />\n      <div className=\"flex-grow p-4\">{children}</div>\n    </div>\n  )\n}\n"],"names":[],"mappings":";;;;;AAAA;;;AAEe,SAAS,YAAY,EAAE,QAAQ,EAAE;IAC9C,qBACE,8OAAC;QAAI,WAAU;;0BACb,8OAAC,4IAAY;;;;;0BACb,8OAAC;gBAAI,WAAU;0BAAiB;;;;;;;;;;;;AAGtC","debugId":null}}]
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 3, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"","debugId":null}},
+    {"offset": {"line": 15, "column": 0}, "map": {"version":3,"sources":["file:///D:/ecomm/frontend/src/app/page.js"],"sourcesContent":["import Image from \"next/image\";\n\nexport default function Home() {\n  return (\n    <div className=\"font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20\">\n      <main className=\"flex flex-col gap-[32px] row-start-2 items-center sm:items-start\">\n        <ol className=\"font-mono list-inside list-decimal text-sm/6 text-center sm:text-left\">\n          <li className=\"mb-2 tracking-[-.01em]\">\n            Get started by editing{\" \"}\n            <code className=\"bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded\">\n              src/app/page.js\n            </code>\n            .\n          </li>\n          <li className=\"tracking-[-.01em]\">\n            Save and see your changes instantly.\n          </li>\n        </ol>\n\n      </main>\n    </div>\n  );\n}\n"],"names":[],"mappings":";;;;;AAAA;;;AAEe,SAAS;IACtB,qBACE,8OAAC;QAAI,WAAU;kBACb,cAAA,8OAAC;YAAK,WAAU;sBACd,cAAA,8OAAC;gBAAG,WAAU;;kCACZ,8OAAC;wBAAG,WAAU;;4BAAyB;4BACd;0CACvB,8OAAC;gCAAK,WAAU;0CAAiF;;;;;;4BAE1F;;;;;;;kCAGT,8OAAC;wBAAG,WAAU;kCAAoB;;;;;;;;;;;;;;;;;;;;;;AAQ5C","debugId":null}}]
+}
