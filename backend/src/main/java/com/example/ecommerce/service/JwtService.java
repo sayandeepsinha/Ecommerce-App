@@ -25,6 +25,11 @@ public class JwtService {
         return createToken(claims, username);
     }
 
+    // Generate token with additional claims (e.g., role)
+    public String generateToken(String username, Map<String, Object> extraClaims) {
+        return createToken(extraClaims, username);
+    }
+
     private String createToken(Map<String, Object> claims, String subject) {
         long now = System.currentTimeMillis();
         return Jwts.builder()
