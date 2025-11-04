@@ -55,6 +55,9 @@ backend/build/
 *.class
 *.jar
 
+# Backend build output
+bin/
+
 # IDEs
 .vscode/
 .idea/
