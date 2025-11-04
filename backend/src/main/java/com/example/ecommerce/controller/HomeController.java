@@ -8,6 +8,6 @@ public class HomeController {
 
     @GetMapping("/")
     public String home() {
-        return "E-Commerce API is running! Try various end points /api/products, /api/orders, etc.";
+        return "E-Commerce Backend is Live!";
     }
 }

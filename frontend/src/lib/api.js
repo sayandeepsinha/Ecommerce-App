@@ -132,14 +132,71 @@ export const ordersAPI = {
 };
 
 /**
- * Admin API calls (placeholder for future implementation)
+ * Cart API calls
+ */
+export const cartAPI = {
+  getCart: async () => {
+    return apiFetch('/cart');
+  },
+
+  addToCart: async (productId, quantity = 1) => {
+    return apiFetch('/cart/add', {
+      method: 'POST',
+      body: JSON.stringify({ productId, quantity }),
+    });
+  },
+
+  updateCartItem: async (cartItemId, quantity) => {
+    return apiFetch(`/cart/update/${cartItemId}?quantity=${quantity}`, {
+      method: 'PUT',
+    });
+  },
+
+  removeFromCart: async (cartItemId) => {
+    return apiFetch(`/cart/remove/${cartItemId}`, {
+      method: 'DELETE',
+    });
+  },
+};
+
+/**
+ * Admin API calls
  */
 export const adminAPI = {
+  // Get all orders (admin only)
   getOrders: async () => {
     return apiFetch('/admin/orders');
   },
 
+  // Mark order as shipped
+  shipOrder: async (orderId) => {
+    return apiFetch(`/admin/orders/${orderId}/ship`, {
+      method: 'PUT',
+    });
+  },
+
+  // Update order status (flexible)
+  updateOrderStatus: async (orderId, status) => {
+    return apiFetch(`/admin/orders/${orderId}/status`, {
+      method: 'PUT',
+      body: JSON.stringify({ status }),
+    });
+  },
+
+  // Get all products
   getProducts: async () => {
     return apiFetch('/admin/products');
+  },
+};
+
+/**
+ * Checkout/Payment API calls
+ */
+export const checkoutAPI = {
+  createCheckoutSession: async (orderId) => {
+    return apiFetch('/checkout/session', {
+      method: 'POST',
+      body: JSON.stringify({ orderId }),
+    });
   },
 };

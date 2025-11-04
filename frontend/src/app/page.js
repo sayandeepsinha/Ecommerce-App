@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { productsAPI } from '@/lib/api';
+import { productsAPI, cartAPI } from '@/lib/api';
+import { isAuthenticated } from '@/lib/auth';
 
 export default function HomePage() {
   const [products, setProducts] = useState([]);
@@ -10,6 +11,7 @@ export default function HomePage() {
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [addingToCart, setAddingToCart] = useState({});
 
   useEffect(() => {
     fetchProducts();
@@ -45,6 +47,26 @@ export default function HomePage() {
       setError('Search failed');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleAddToCart = async (productId, e) => {
+    e.preventDefault(); // Prevent Link navigation
+    
+    if (!isAuthenticated()) {
+      alert('Please login to add items to cart');
+      return;
+    }
+
+    setAddingToCart(prev => ({ ...prev, [productId]: true }));
+    try {
+      await cartAPI.addToCart(productId, 1);
+      alert('Added to cart!');
+    } catch (err) {
+      alert('Failed to add to cart');
+      console.error(err);
+    } finally {
+      setAddingToCart(prev => ({ ...prev, [productId]: false }));
     }
   };
 
@@ -118,34 +140,44 @@ export default function HomePage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {products.map((product) => (
-            <Link
+            <div
               key={product.id}
-              href={`/products/${product.id}`}
-              className="border border-gray-300 dark:border-gray-600 rounded-lg p-4 hover:shadow-lg transition-shadow"
+              className="border border-gray-300 dark:border-gray-600 rounded-lg p-4 hover:shadow-lg transition-shadow flex flex-col"
             >
-              {product.imageUrl && (
-                <img
-                  src={product.imageUrl}
-                  alt={product.name}
-                  className="w-full h-48 object-cover rounded-md mb-3"
-                />
-              )}
-              <h3 className="font-semibold text-lg mb-2">{product.name}</h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm mb-2 line-clamp-2">
-                {product.description}
-              </p>
-              <div className="flex justify-between items-center">
-                <span className="text-xl font-bold text-blue-600">${product.price}</span>
-                <span className="text-sm text-gray-500">
-                  Stock: {product.stock}
-                </span>
-              </div>
-              {product.category && (
-                <span className="inline-block mt-2 px-2 py-1 bg-gray-200 dark:bg-gray-700 text-xs rounded">
-                  {product.category}
-                </span>
-              )}
-            </Link>
+              <Link href={`/products/${product.id}`} className="flex-1">
+                {product.imageUrl && (
+                  <img
+                    src={product.imageUrl}
+                    alt={product.name}
+                    className="w-full h-48 object-cover rounded-md mb-3"
+                  />
+                )}
+                <h3 className="font-semibold text-lg mb-2">{product.name}</h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mb-2 line-clamp-2">
+                  {product.description}
+                </p>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-xl font-bold text-blue-600">${product.price}</span>
+                  <span className="text-sm text-gray-500">
+                    Stock: {product.stock}
+                  </span>
+                </div>
+                {product.category && (
+                  <span className="inline-block px-2 py-1 bg-gray-200 dark:bg-gray-700 text-xs rounded">
+                    {product.category}
+                  </span>
+                )}
+              </Link>
+              
+              {/* Add to Cart Button */}
+              <button
+                onClick={(e) => handleAddToCart(product.id, e)}
+                disabled={addingToCart[product.id] || product.stock === 0}
+                className="mt-3 w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {addingToCart[product.id] ? 'Adding...' : product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
+              </button>
+            </div>
           ))}
         </div>
       )}

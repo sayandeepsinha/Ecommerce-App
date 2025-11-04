@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { productsAPI } from '@/lib/api';
+import { productsAPI, cartAPI } from '@/lib/api';
+import { isAuthenticated } from '@/lib/auth';
 import Link from 'next/link';
 
 export default function ProductDetail({ params }) {
@@ -11,6 +12,8 @@ export default function ProductDetail({ params }) {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [addingToCart, setAddingToCart] = useState(false);
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     fetchProduct();
@@ -27,6 +30,25 @@ export default function ProductDetail({ params }) {
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleAddToCart = async () => {
+    if (!isAuthenticated()) {
+      alert('Please login to add items to cart');
+      router.push('/login');
+      return;
+    }
+
+    setAddingToCart(true);
+    try {
+      await cartAPI.addToCart(product.id, quantity);
+      alert(`Added ${quantity} item(s) to cart!`);
+    } catch (err) {
+      alert('Failed to add to cart');
+      console.error(err);
+    } finally {
+      setAddingToCart(false);
     }
   };
 
@@ -99,11 +121,34 @@ export default function ProductDetail({ params }) {
             </p>
           </div>
 
+          {/* Quantity Selector */}
+          {product.stock > 0 && (
+            <div className="mb-6">
+              <h3 className="font-semibold mb-2">Quantity:</h3>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
+                  -
+                </button>
+                <span className="w-16 text-center font-semibold">{quantity}</span>
+                <button
+                  onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
+                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          )}
+
           <button
-            disabled={product.stock === 0}
+            onClick={handleAddToCart}
+            disabled={product.stock === 0 || addingToCart}
             className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-lg transition-colors"
           >
-            {product.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
+            {addingToCart ? 'Adding to Cart...' : product.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
           </button>
 
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-4">
