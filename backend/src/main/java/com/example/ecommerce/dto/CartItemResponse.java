@@ -15,11 +15,18 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CartItemResponse {
+    @SuppressWarnings("unused")
     private Long id;
+    @SuppressWarnings("unused")
     private Long productId;
+    @SuppressWarnings("unused")
     private String productName;
-    private BigDecimal price;
-    private String imageUrl;
-    private Integer quantity;
-    private BigDecimal subtotal; // price * quantity
+    @SuppressWarnings("unused")
+	private BigDecimal price;
+    @SuppressWarnings("unused")
+	private String imageUrl;
+    @SuppressWarnings("unused")
+	private Integer quantity;
+    @SuppressWarnings("unused")
+	private BigDecimal subtotal; // price * quantity
 }

@@ -10,11 +10,18 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class ProductResponse {
-    private Long id;
-    private String name;
-    private BigDecimal price;
-    private Integer stock;
-    private String imageUrl;
-    private String category;
-    private String description;
+    @SuppressWarnings("unused")
+	private Long id;
+    @SuppressWarnings("unused")
+	private String name;
+    @SuppressWarnings("unused")
+	private BigDecimal price;
+    @SuppressWarnings("unused")
+	private Integer stock;
+    @SuppressWarnings("unused")
+	private String imageUrl;
+    @SuppressWarnings("unused")
+	private String category;
+    @SuppressWarnings("unused")
+	private String description;
 }

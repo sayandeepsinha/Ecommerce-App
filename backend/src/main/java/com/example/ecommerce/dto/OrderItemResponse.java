@@ -15,10 +15,16 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderItemResponse {
-    private Long id;
-    private Long productId;
-    private String productName;
-    private BigDecimal price;
-    private Integer quantity;
-    private BigDecimal subtotal;
+    @SuppressWarnings("unused")
+	private Long id;
+    @SuppressWarnings("unused")
+	private Long productId;
+    @SuppressWarnings("unused")
+	private String productName;
+    @SuppressWarnings("unused")
+	private BigDecimal price;
+    @SuppressWarnings("unused")
+	private Integer quantity;
+    @SuppressWarnings("unused")
+	private BigDecimal subtotal;
 }

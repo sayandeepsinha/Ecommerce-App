@@ -4,6 +4,7 @@ import com.example.ecommerce.dto.CheckoutSessionResponse;
 import com.example.ecommerce.dto.CreateCheckoutSessionRequest;
 import com.example.ecommerce.service.CustomUserDetailsService;
 import com.example.ecommerce.service.StripeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,19 +33,15 @@ public class CheckoutController {
      */
     @PostMapping("/session")
     public ResponseEntity<CheckoutSessionResponse> createCheckoutSession(
-            @RequestBody CreateCheckoutSessionRequest request,
+            @Valid @RequestBody CreateCheckoutSessionRequest request,
             Authentication authentication
     ) {
-        try {
-            Long userId = getUserIdFromAuth(authentication);
-            CheckoutSessionResponse response = stripeService.createCheckoutSession(
-                    request.getOrderId(), 
-                    userId
-            );
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        Long userId = getUserIdFromAuth(authentication);
+        CheckoutSessionResponse response = stripeService.createCheckoutSession(
+                request.getOrderId(), 
+                userId
+        );
+        return ResponseEntity.ok(response);
     }
 
     /**

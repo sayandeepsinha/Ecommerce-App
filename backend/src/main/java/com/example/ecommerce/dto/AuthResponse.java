@@ -8,8 +8,12 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class AuthResponse {
-    private String token;
-    private String email;
-    private String name;
-    private String role;
+    @SuppressWarnings("unused")
+	private String token;
+    @SuppressWarnings("unused")
+	private String email;
+    @SuppressWarnings("unused")
+	private String name;
+    @SuppressWarnings("unused")
+	private String role;
 }

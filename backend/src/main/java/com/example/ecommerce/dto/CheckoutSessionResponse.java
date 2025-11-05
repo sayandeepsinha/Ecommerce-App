@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CheckoutSessionResponse {
-    private String sessionId;
-    private String checkoutUrl;
+    @SuppressWarnings("unused")
+	private String sessionId;
+    @SuppressWarnings("unused")
+	private String checkoutUrl;
 }

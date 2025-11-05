@@ -64,7 +64,8 @@ public class Order {
     /**
      * Shipping address
      */
-    private String shippingAddress;
+    @SuppressWarnings("unused")
+	private String shippingAddress;
 
     /**
      * Helper method to add an item to the order

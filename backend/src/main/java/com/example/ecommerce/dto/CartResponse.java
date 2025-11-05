@@ -17,8 +17,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CartResponse {
-    private Long id;
-    private List<CartItemResponse> items;
-    private BigDecimal total; // sum of all item subtotals
-    private Integer itemCount; // total number of items
+    @SuppressWarnings("unused")
+	private Long id;
+    @SuppressWarnings("unused")
+	private List<CartItemResponse> items;
+    @SuppressWarnings("unused")
+	private BigDecimal total; // sum of all item subtotals
+    @SuppressWarnings("unused")
+	private Integer itemCount; // total number of items
 }

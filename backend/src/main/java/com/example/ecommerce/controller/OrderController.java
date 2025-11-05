@@ -4,6 +4,7 @@ import com.example.ecommerce.dto.CreateOrderRequest;
 import com.example.ecommerce.dto.OrderResponse;
 import com.example.ecommerce.service.CustomUserDetailsService;
 import com.example.ecommerce.service.OrderService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,16 +31,12 @@ public class OrderController {
      */
     @PostMapping
     public ResponseEntity<OrderResponse> createOrder(
-            @RequestBody CreateOrderRequest request,
+            @Valid @RequestBody CreateOrderRequest request,
             Authentication authentication
     ) {
-        try {
-            Long userId = getUserIdFromAuth(authentication);
-            OrderResponse order = orderService.createOrder(userId, request);
-            return ResponseEntity.status(HttpStatus.CREATED).body(order);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        Long userId = getUserIdFromAuth(authentication);
+        OrderResponse order = orderService.createOrder(userId, request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
 
     /**
@@ -62,13 +59,9 @@ public class OrderController {
             @PathVariable Long id,
             Authentication authentication
     ) {
-        try {
-            Long userId = getUserIdFromAuth(authentication);
-            OrderResponse order = orderService.getOrderById(userId, id);
-            return ResponseEntity.ok(order);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        Long userId = getUserIdFromAuth(authentication);
+        OrderResponse order = orderService.getOrderById(userId, id);
+        return ResponseEntity.ok(order);
     }
 
     /**

@@ -4,6 +4,7 @@ import com.example.ecommerce.dto.AddToCartRequest;
 import com.example.ecommerce.dto.CartResponse;
 import com.example.ecommerce.service.CartService;
 import com.example.ecommerce.service.CustomUserDetailsService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -38,7 +39,7 @@ public class CartController {
      */
     @PostMapping("/add")
     public ResponseEntity<CartResponse> addToCart(
-            @RequestBody AddToCartRequest request,
+            @Valid @RequestBody AddToCartRequest request,
             Authentication authentication
     ) {
         Long userId = getUserIdFromAuth(authentication);

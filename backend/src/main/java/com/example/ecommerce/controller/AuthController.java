@@ -4,6 +4,7 @@ import com.example.ecommerce.dto.AuthResponse;
 import com.example.ecommerce.dto.LoginRequest;
 import com.example.ecommerce.dto.RegisterRequest;
 import com.example.ecommerce.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -28,13 +29,9 @@ public class AuthController {
      * POST /api/auth/register
      */
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
-        try {
-            AuthResponse response = userService.register(request);
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
+        AuthResponse response = userService.register(request);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -42,13 +39,9 @@ public class AuthController {
      * POST /api/auth/login
      */
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
-        try {
-            AuthResponse response = userService.login(request);
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(401).build();
-        }
+    public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
+        AuthResponse response = userService.login(request);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -56,15 +49,11 @@ public class AuthController {
      * POST /api/auth/register-admin
      */
     @PostMapping("/register-admin")
-    public ResponseEntity<AuthResponse> registerAdmin(@RequestBody RegisterRequest request) {
+    public ResponseEntity<AuthResponse> registerAdmin(@Valid @RequestBody RegisterRequest request) {
         if (!allowAdminRegistration) {
             return ResponseEntity.status(403).build();
         }
-        try {
-            AuthResponse response = userService.registerAdmin(request);
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        AuthResponse response = userService.registerAdmin(request);
+        return ResponseEntity.ok(response);
     }
 }

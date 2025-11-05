@@ -17,11 +17,18 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderResponse {
-    private Long id;
-    private Long userId;
-    private List<OrderItemResponse> items;
-    private BigDecimal total;
-    private String status;
-    private LocalDateTime createdAt;
-    private String shippingAddress;
+    @SuppressWarnings("unused")
+	private Long id;
+    @SuppressWarnings("unused")
+	private Long userId;
+    @SuppressWarnings("unused")
+	private List<OrderItemResponse> items;
+    @SuppressWarnings("unused")
+	private BigDecimal total;
+    @SuppressWarnings("unused")
+	private String status;
+    @SuppressWarnings("unused")
+	private LocalDateTime createdAt;
+    @SuppressWarnings("unused")
+	private String shippingAddress;
 }

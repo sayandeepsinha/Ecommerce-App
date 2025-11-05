@@ -7,7 +7,40 @@ import { getAuthHeader } from './auth';
 const API_BASE_URL = 'http://localhost:8080/api';
 
 /**
- * Generic fetch wrapper with JWT authentication
+ * Custom API Error class with backend error details
+ */
+export class ApiError extends Error {
+  constructor(message, status, errors = null, path = null) {
+    super(message);
+    this.name = 'ApiError';
+    this.status = status;
+    this.errors = errors; // Field validation errors
+    this.path = path;
+  }
+
+  isUnauthorized() {
+    return this.status === 401;
+  }
+
+  isForbidden() {
+    return this.status === 403;
+  }
+
+  isConflict() {
+    return this.status === 409;
+  }
+
+  isValidationError() {
+    return this.status === 400 && this.errors;
+  }
+
+  getFieldError(fieldName) {
+    return this.errors?.[fieldName];
+  }
+}
+
+/**
+ * Generic fetch wrapper with JWT authentication and enhanced error handling
  */
 async function apiFetch(endpoint, options = {}) {
   const url = `${API_BASE_URL}${endpoint}`;
@@ -26,8 +59,27 @@ async function apiFetch(endpoint, options = {}) {
     const response = await fetch(url, config);
     
     if (!response.ok) {
-      const error = await response.text();
-      throw new Error(error || `HTTP error! status: ${response.status}`);
+      // Try to parse error response
+      const contentType = response.headers.get('content-type');
+      
+      if (contentType && contentType.includes('application/json')) {
+        const errorData = await response.json();
+        
+        // Backend ErrorResponse format: { timestamp, status, error, message, path, errors? }
+        throw new ApiError(
+          errorData.message || `HTTP error! status: ${response.status}`,
+          response.status,
+          errorData.errors, // Field validation errors map
+          errorData.path
+        );
+      }
+      
+      // Fallback for non-JSON errors
+      const errorText = await response.text();
+      throw new ApiError(
+        errorText || `HTTP error! status: ${response.status}`,
+        response.status
+      );
     }
     
     // Handle empty responses
@@ -38,8 +90,17 @@ async function apiFetch(endpoint, options = {}) {
     
     return await response.text();
   } catch (error) {
+    // Re-throw ApiError instances
+    if (error instanceof ApiError) {
+      throw error;
+    }
+    
+    // Wrap network errors
     console.error('API Error:', error);
-    throw error;
+    throw new ApiError(
+      error.message || 'Network error occurred',
+      0 // 0 indicates network/unknown error
+    );
   }
 }
 
