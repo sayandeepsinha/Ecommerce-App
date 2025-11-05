@@ -17,26 +17,34 @@ Full-stack e-commerce platform built with **Spring Boot** (backend) and **Next.j
 
 ### Running the Application
 
-#### 1. Start the Backend (Spring Boot)
+#### 1. Start PostgreSQL Database
+Ensure PostgreSQL is running on `localhost:5432` with your configured database.
+
+#### 2. Start the Backend (Spring Boot)
 ```bash
 cd backend
 ./gradlew bootRun
 ```
-The backend will start on `http://localhost:8080` (default Spring Boot port).
+Backend runs on `http://localhost:8080`
 
-#### 2. Start the Frontend (Next.js)
-Open a new terminal and run:
+#### 3. Start Stripe CLI (for webhook testing)
+Open a new terminal:
+```bash
+stripe listen --forward-to localhost:8080/api/checkout/webhook
+```
+Copy the webhook signing secret and update `application.properties`:
+```
+stripe.webhook.secret=whsec_your_secret_here
+```
+
+#### 4. Start the Frontend (Next.js)
+Open a new terminal:
 ```bash
 cd frontend
-npm install  # Only needed first time or after dependency changes
+npm install  # First time only
 npm run dev
 ```
-The frontend will start on `http://localhost:3000` (default Next.js port).
+Frontend runs on `http://localhost:3000`
 
-#### 3. Open in Browser
-Once both servers are running:
-- Open your browser and navigate to: **http://localhost:3000**
-- The Next.js development server will automatically open in your default browser
-- You can also manually open any browser and go to `http://localhost:3000`
-
-The frontend will proxy API requests to the backend server running on port 8080.
+#### 5. Access the Application
+Open your browser: **http://localhost:3000**
