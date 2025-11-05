@@ -4,7 +4,6 @@ import com.example.ecommerce.dto.ProductRequest;
 import com.example.ecommerce.dto.ProductResponse;
 import com.example.ecommerce.model.Product;
 import com.example.ecommerce.repository.ProductRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,10 +13,13 @@ import java.util.stream.Collectors;
  * Service to handle product-related business logic.
  */
 @Service
-@RequiredArgsConstructor
 public class ProductService {
 
     private final ProductRepository productRepository;
+
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     /**
      * Get all products

@@ -2,8 +2,6 @@ package com.example.ecommerce.service;
 
 import com.example.ecommerce.model.User;
 import com.example.ecommerce.repository.UserRepository;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,10 +17,13 @@ import java.util.Collections;
  * Loads user by email and provides authorities based on role.
  */
 @Service
-@RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
+
+    public CustomUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -41,34 +42,37 @@ public class CustomUserDetailsService implements UserDetailsService {
      * Custom UserDetails implementation that includes user ID
      * This makes it easy to get the user ID from the Authentication object
      */
-    @Getter
     public static class CustomUserDetails implements UserDetails {
         private final Long id;
         private final String username;
         private final String password;
-        private final Collection<? extends GrantedAuthority> authorities;
+        private final Collection<GrantedAuthority> authorities;
 
         public CustomUserDetails(Long id, String username, String password,
                                 Collection<? extends GrantedAuthority> authorities) {
             this.id = id;
             this.username = username;
             this.password = password;
-            this.authorities = authorities;
+            this.authorities = Collections.unmodifiableCollection(new java.util.ArrayList<>(authorities));
+        }
+
+        public Long getId() { 
+            return id; 
         }
 
         @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
-            return authorities;
+            return this.authorities;
         }
 
         @Override
         public String getPassword() {
-            return password;
+            return this.password;
         }
 
         @Override
         public String getUsername() {
-            return username;
+            return this.username;
         }
 
         @Override

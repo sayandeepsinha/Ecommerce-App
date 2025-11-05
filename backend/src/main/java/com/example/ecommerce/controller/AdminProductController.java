@@ -4,7 +4,6 @@ import com.example.ecommerce.dto.ProductRequest;
 import com.example.ecommerce.dto.ProductResponse;
 import com.example.ecommerce.service.ProductService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,12 +17,15 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/admin/products")
-@RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminProductController {
 
     private final ProductService productService;
+
+    public AdminProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     /**
      * Get all products (admin view)

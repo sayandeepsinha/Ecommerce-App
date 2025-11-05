@@ -5,7 +5,6 @@ import com.example.ecommerce.dto.CartResponse;
 import com.example.ecommerce.service.CartService;
 import com.example.ecommerce.service.CustomUserDetailsService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +15,14 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/api/cart")
-@RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 public class CartController {
 
     private final CartService cartService;
+
+    public CartController(CartService cartService) {
+        this.cartService = cartService;
+    }
 
     /**
      * Get current user's cart

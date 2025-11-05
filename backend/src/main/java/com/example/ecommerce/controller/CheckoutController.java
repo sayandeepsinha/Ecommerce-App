@@ -5,7 +5,6 @@ import com.example.ecommerce.dto.CreateCheckoutSessionRequest;
 import com.example.ecommerce.service.CustomUserDetailsService;
 import com.example.ecommerce.service.StripeService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -17,11 +16,14 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/api/checkout")
-@RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 public class CheckoutController {
 
     private final StripeService stripeService;
+
+    public CheckoutController(StripeService stripeService) {
+        this.stripeService = stripeService;
+    }
 
     /**
      * Create a Stripe checkout session for an order

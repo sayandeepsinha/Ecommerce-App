@@ -1,15 +1,9 @@
 package com.example.ecommerce.dto;
 
 import jakarta.validation.constraints.*;
-import lombok.*;
 
 import java.math.BigDecimal;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class ProductRequest {
     
     @NotBlank(message = "Product name is required")
@@ -32,4 +26,34 @@ public class ProductRequest {
     
     @Size(max = 1000, message = "Description cannot exceed 1000 characters")
     private String description;
+
+    public ProductRequest() {}
+
+    public ProductRequest(String name, BigDecimal price, Integer stock, String imageUrl, 
+                         String category, String description) {
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+        this.imageUrl = imageUrl;
+        this.category = category;
+        this.description = description;
+    }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public BigDecimal getPrice() { return price; }
+    public void setPrice(BigDecimal price) { this.price = price; }
+
+    public Integer getStock() { return stock; }
+    public void setStock(Integer stock) { this.stock = stock; }
+
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 }

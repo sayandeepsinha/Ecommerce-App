@@ -1,7 +1,8 @@
 package com.example.ecommerce.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+
+import java.math.BigDecimal;
 
 /**
  * CartItem entity - represents a single product in a cart with quantity
@@ -9,11 +10,6 @@ import lombok.*;
  */
 @Entity
 @Table(name = "cart_items")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class CartItem {
 
     @Id
@@ -42,11 +38,51 @@ public class CartItem {
     @Column(nullable = false)
     private Integer quantity;
 
+    public CartItem() {}
+
+    public CartItem(Long id, Cart cart, Product product, Integer quantity) {
+        this.id = id;
+        this.cart = cart;
+        this.product = product;
+        this.quantity = quantity;
+    }
+
     /**
-     * Helper method to calculate subtotal for this item
-     * price * quantity
+     * Calculate subtotal for this cart item (price * quantity)
      */
-    public java.math.BigDecimal getSubtotal() {
-        return product.getPrice().multiply(java.math.BigDecimal.valueOf(quantity));
+    public BigDecimal getSubtotal() {
+        return product.getPrice().multiply(new BigDecimal(quantity));
+    }
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public Cart getCart() { return cart; }
+    public void setCart(Cart cart) { this.cart = cart; }
+
+    public Product getProduct() { return product; }
+    public void setProduct(Product product) { this.product = product; }
+
+    public Integer getQuantity() { return quantity; }
+    public void setQuantity(Integer quantity) { this.quantity = quantity; }
+
+    public static CartItemBuilder builder() {
+        return new CartItemBuilder();
+    }
+
+    public static class CartItemBuilder {
+        private Long id;
+        private Cart cart;
+        private Product product;
+        private Integer quantity;
+
+        public CartItemBuilder id(Long id) { this.id = id; return this; }
+        public CartItemBuilder cart(Cart cart) { this.cart = cart; return this; }
+        public CartItemBuilder product(Product product) { this.product = product; return this; }
+        public CartItemBuilder quantity(Integer quantity) { this.quantity = quantity; return this; }
+
+        public CartItem build() {
+            return new CartItem(id, cart, product, quantity);
+        }
     }
 }

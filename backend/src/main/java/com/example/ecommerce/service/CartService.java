@@ -11,7 +11,6 @@ import com.example.ecommerce.repository.CartItemRepository;
 import com.example.ecommerce.repository.CartRepository;
 import com.example.ecommerce.repository.ProductRepository;
 import com.example.ecommerce.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,13 +23,20 @@ import java.util.stream.Collectors;
  * Handles all business logic for shopping cart
  */
 @Service
-@RequiredArgsConstructor
 public class CartService {
 
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+
+    public CartService(CartRepository cartRepository, CartItemRepository cartItemRepository,
+                      ProductRepository productRepository, UserRepository userRepository) {
+        this.cartRepository = cartRepository;
+        this.cartItemRepository = cartItemRepository;
+        this.productRepository = productRepository;
+        this.userRepository = userRepository;
+    }
 
     /**
      * Get user's cart

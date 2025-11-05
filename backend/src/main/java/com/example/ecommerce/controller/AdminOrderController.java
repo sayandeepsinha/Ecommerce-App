@@ -2,7 +2,6 @@ package com.example.ecommerce.controller;
 
 import com.example.ecommerce.dto.OrderResponse;
 import com.example.ecommerce.service.OrderService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +15,14 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/admin/orders")
-@RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')") // All endpoints require ADMIN role
 public class AdminOrderController {
 
     private final OrderService orderService;
+
+    public AdminOrderController(OrderService orderService) {
+        this.orderService = orderService;
+    }
 
     /**
      * GET /api/admin/orders

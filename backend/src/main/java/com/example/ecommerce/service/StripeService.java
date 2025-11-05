@@ -10,7 +10,6 @@ import com.stripe.model.Event;
 import com.stripe.model.StripeObject;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,11 +23,11 @@ import java.util.List;
  * Handles creating checkout sessions and processing webhooks
  */
 @Service
-@RequiredArgsConstructor
 public class StripeService {
 
     private final OrderRepository orderRepository;
-    private final OrderService orderService;
+    @SuppressWarnings("unused")
+	private final OrderService orderService;
 
     /**
      * Stripe API key from application.properties
@@ -53,6 +52,12 @@ public class StripeService {
      */
     @Value("${stripe.cancel.url}")
     private String cancelUrl;
+
+    // Constructor for dependency injection
+    public StripeService(OrderRepository orderRepository, OrderService orderService) {
+        this.orderRepository = orderRepository;
+        this.orderService = orderService;
+    }
 
     /**
      * Initialize Stripe API key after bean construction
